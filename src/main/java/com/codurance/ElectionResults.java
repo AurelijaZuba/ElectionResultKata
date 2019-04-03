@@ -14,7 +14,6 @@ public class ElectionResults {
             var partyCode = results[i + 1];
 
             actualResult = " ||" + getFullPartyName(partyCode) + " |" + polingVote;
-
         }
 
         return actualResult;
