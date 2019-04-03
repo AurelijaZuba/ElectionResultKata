@@ -8,13 +8,15 @@ public class ElectionResultsShould {
 
 
     @Test
-    void transform_single_result() {
-        String input = "Cardiff West, 11014, C";
+    void transform_constituency_name_to_statistical_format() {
+        String resultInput = "Cardiff West";
+
         ElectionResults electionResults = new ElectionResults();
+        var result = electionResults.electionTransformer(resultInput);
 
-        var result = electionResults.electionTransformer(input);
-
-        assertThat(result).isEqualTo("Cardiff West || Conservative Party | 30.76% ");
-
+        assertThat(result).isEqualTo("Cardiff West");
     }
+
+
+
 }
