@@ -11,7 +11,7 @@ public class ElectionResults {
             String[] results = input.split(",");
             actualResult = results[0] + " ||" + results[2] + " |" + results[1];
         }
-        actualResult = input;
+        actualResult = input + " ||";
 
         return actualResult;
     }
