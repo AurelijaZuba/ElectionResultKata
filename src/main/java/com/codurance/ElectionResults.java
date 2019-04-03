@@ -4,15 +4,24 @@ public class ElectionResults {
 
     public String electionTransformer(String input) {
 
-        String actualResult;
+        String[] results = input.split(",");
+        String constituencyName = results[0];
 
-        if(input.length() < 1)
+        String actualResult = constituencyName;
+        for(var i = 1; i < results.length - 1; i += 2)
         {
-            String[] results = input.split(",");
-            actualResult = results[0] + " ||" + results[2] + " |" + results[1];
+            var polingVote = results[i];
+            var partyCode = results[i + 1];
+
+            actualResult = " ||" + getFullPartyName(partyCode) + " |" + polingVote;
+
         }
-        actualResult = input + " ||";
 
         return actualResult;
+    }
+
+
+    private String getFullPartyName(String result) {
+        return null;
     }
 }
