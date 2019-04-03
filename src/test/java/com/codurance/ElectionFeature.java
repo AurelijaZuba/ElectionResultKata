@@ -1,0 +1,26 @@
+package com.codurance;
+
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class ElectionFeature {
+
+    @Test
+    void transforming_election_results_into_friendly_statistics() {
+
+        ElectionResults electionResults = new ElectionResults();
+
+        String expectedResults = "Cardiff West || Conservative Party | 30.76% || " +
+                "Labour Party | 49.72% || " +
+                "UKIP | 13.75% || " +
+                "Liberal Democrats | 5.78%\n" +
+                "Islington South & Finsbury || Labour Party | 51.45% " +
+                "|| Conservative Party | 21.43% || " +
+                "Liberal Democrats | 11.02% || " +
+                "UKIP | 7.70% || Green Party | 7.69% " +
+                "|| Independent | 0.71%";
+
+        assertThat(electionResults.electionTransformer()).isEqualTo(expectedResults);
+    }
+}
