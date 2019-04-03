@@ -11,6 +11,9 @@ public class ElectionFeature {
 
         ElectionResults electionResults = new ElectionResults();
 
+        String electionFeedResults = "Cardiff West, 11014, C, 17803, L, 4923, UKIP, 2069, LD\n" +
+                "Islington South & Finsbury, 22547, L, 9389, C, 4829, LD, 3375, UKIP, 3371, G, 309, Ind";
+
         String expectedResults = "Cardiff West || Conservative Party | 30.76% || " +
                 "Labour Party | 49.72% || " +
                 "UKIP | 13.75% || " +
@@ -21,6 +24,6 @@ public class ElectionFeature {
                 "UKIP | 7.70% || Green Party | 7.69% " +
                 "|| Independent | 0.71%";
 
-        assertThat(electionResults.electionTransformer()).isEqualTo(expectedResults);
+        assertThat(electionResults.electionTransformer(electionFeedResults)).isEqualTo(expectedResults);
     }
 }

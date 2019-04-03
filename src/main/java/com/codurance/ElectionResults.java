@@ -2,7 +2,7 @@ package com.codurance;
 
 public class ElectionResults {
 
-    public String electionTransformer() {
+    public String electionTransformer(String input) {
         return null;
     }
 }
