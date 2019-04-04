@@ -15,6 +15,11 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class ElectionResultsShould {
 
+    //Mock for repository
+    //constructor inject the data within the class without making it the responsibility.
+    //BDD in java
+
+
     @ParameterizedTest
     @MethodSource("singleLineTestCases")
     void transform_constituency_name_to_statistical_format(String resultInput, String expectedResult) {
@@ -24,7 +29,6 @@ public class ElectionResultsShould {
 
         assertThat(result).isEqualTo(expectedResult);
     }
-
     static Stream<Arguments> singleLineTestCases() {
         return Stream.of(
                 arguments("Cardiff West, 11014, C", "Cardiff West || Conservative Party | 100.00%"),
@@ -37,4 +41,6 @@ public class ElectionResultsShould {
                                 "UKIP | 7.70% || Green Party | 7.69% || Independent | 0.71%")
         );
     }
+
+
 }

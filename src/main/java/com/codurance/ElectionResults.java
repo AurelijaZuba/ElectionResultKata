@@ -9,13 +9,13 @@ public class ElectionResults {
 
     public String electionTransformer(String input) {
 
-        StringBuilder electionResultBuilder = new StringBuilder();
+        var electionResultBuilder = new StringBuilder();
         for (var newLine : input.split(lineSeparator())) {
 
             String[] constituencyInformation = newLine.split(",");
             var constituencyName = constituencyInformation[0];
             ArrayList<ElectionResult> electionResults = getElectionResults(constituencyInformation);
-            ConstituencyResult constituencyResult = new ConstituencyResult(constituencyName, electionResults);
+            var constituencyResult = new ConstituencyResult(constituencyName, electionResults);
             electionResultBuilder.append(constituencyResult.toString() + lineSeparator());
         }
 
@@ -32,10 +32,14 @@ public class ElectionResults {
         var electionResults = new ArrayList<ElectionResult>();
 
         for (var i = 1; i < result.length - 1; i += 2) {
-            int voteCount = Integer.parseInt(result[i].trim());
+            var voteCount = Integer.parseInt(result[i].trim());
             var partyCode = result[i + 1].trim();
+
+
+//            var partyName = getFullPartyName(partyCode);
+
             var partyName = getFullPartyName(partyCode);
-            ElectionResult electionResult = new ElectionResult(partyName, voteCount);
+            var electionResult = new ElectionResult(partyName, voteCount);
             electionResults.add(electionResult);
         }
 
