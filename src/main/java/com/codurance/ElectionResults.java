@@ -1,48 +1,51 @@
 package com.codurance;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
+
+import static java.lang.System.*;
 
 public class ElectionResults {
 
     public String electionTransformer(String input) {
 
-        String[] results = input.split(",");
-        String constituencyName = results[0];
-        var actualResult = constituencyName;
+        StringBuilder actualResult = new StringBuilder();
+        for (var newLine : input.split(lineSeparator())) {
 
-        for (var newLine : input.split(System.lineSeparator())) {
             String[] result = newLine.split(",");
+            var constituencyName = result[0];
+            actualResult.append(constituencyName);
+            var electionResults = new ArrayList<ElectionResult>();
 
             for (var i = 1; i < result.length - 1; i += 2) {
 
-                int polingVote = Integer.parseInt(result[i].trim());
+                int voteCount = Integer.parseInt(result[i].trim());
                 var partyCode = result[i + 1].trim();
+                var partyName = getFullPartyName(partyCode);
 
-//                var s = IntStream.of(polingVote).sum();
-//                var calculator = (double)(polingVote / s) ;
-
-
-                actualResult += " || " + getFullPartyName(partyCode) + " | 100%";
-
+                ElectionResult electionResult = new ElectionResult(partyName, voteCount);
+                electionResults.add(electionResult);
             }
 
+            double voteSum = electionResults.stream().map(x -> x.getVoteCount()).mapToDouble(x -> x.doubleValue()).sum();
+
+            electionResults.forEach(x -> {
+                Formatter format = new Formatter();
+                double votePercentage = ((x.getVoteCount() / voteSum) * 100);
+                actualResult.append(" || " + x.getPartyName() + " | " + format.format("%.2f",votePercentage) + "%");
+
+            });
+
+            actualResult.append(lineSeparator());
         }
-        return actualResult;
+        var electionResult = actualResult.toString();
+        var lengthWithoutSeperator = electionResult.length() - lineSeparator().length();
+        return electionResult.substring(0, lengthWithoutSeperator);
     }
 
-
-    private String voteCalculator(String polingVote) {
-
-
-        return null;
-    }
 
     private String getFullPartyName(String partyCode) {
-        Map map=new HashMap();
+        Map map = new HashMap();
         map.put("C", "Conservative Party");
         map.put("LD", "Liberal Democrats");
         map.put("L", "Labour Party");
@@ -50,7 +53,7 @@ public class ElectionResults {
         map.put("G", "Green Party");
         map.put("Ind", "Independent");
 
-        return (String)map.get(partyCode);
+        return (String) map.get(partyCode);
     }
 
 
