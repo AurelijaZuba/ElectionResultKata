@@ -15,7 +15,6 @@ public class ElectionResult {
         return partyName;
     }
 
-
     public int getVoteCount() {
         return voteCount;
     }
