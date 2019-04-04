@@ -19,13 +19,14 @@ public class ConstituencyResult {
                 .mapToDouble(x -> x.doubleValue())
                 .sum();
 
-        StringBuilder actualResult = new StringBuilder();
+        StringBuilder constituencyResultBuilder = new StringBuilder();
+        constituencyResultBuilder.append(constituencyName);
         electionResults.forEach(x -> {
             Formatter percentageFormatter = new Formatter();
             double votePercentage = ((x.getVoteCount() / voteSum) * 100);
-            actualResult.append(" || " + x.getPartyName() + " | " + percentageFormatter.format("%.2f",votePercentage) + "%");
+            constituencyResultBuilder.append(" || " + x.getPartyName() + " | " + percentageFormatter.format("%.2f",votePercentage) + "%");
         });
 
-        return actualResult.toString();
+        return constituencyResultBuilder.toString();
     }
 }

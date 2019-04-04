@@ -9,22 +9,21 @@ public class ElectionResults {
 
     public String electionTransformer(String input) {
 
-        StringBuilder actualResult = new StringBuilder();
+        StringBuilder electionResultBuilder = new StringBuilder();
         for (var newLine : input.split(lineSeparator())) {
 
-
-            String[] result = newLine.split(",");
-            var constituencyName = result[0];
-            actualResult.append(constituencyName);
-            ArrayList<ElectionResult> electionResults = getElectionResults(result);
-
+            String[] constituencyInformation = newLine.split(",");
+            var constituencyName = constituencyInformation[0];
+            ArrayList<ElectionResult> electionResults = getElectionResults(constituencyInformation);
             ConstituencyResult constituencyResult = new ConstituencyResult(constituencyName, electionResults);
-
-            actualResult.append(constituencyResult.toString());
-            actualResult.append(lineSeparator());
+            electionResultBuilder.append(constituencyResult.toString() + lineSeparator());
         }
 
-        var electionResult = actualResult.toString();
+        return getFormattedElectionResults(electionResultBuilder);
+    }
+
+    private String getFormattedElectionResults(StringBuilder electionResultBuilder) {
+        var electionResult = electionResultBuilder.toString();
         var lengthWithoutSeperator = electionResult.length() - lineSeparator().length();
         return electionResult.substring(0, lengthWithoutSeperator);
     }
@@ -33,14 +32,13 @@ public class ElectionResults {
         var electionResults = new ArrayList<ElectionResult>();
 
         for (var i = 1; i < result.length - 1; i += 2) {
-
             int voteCount = Integer.parseInt(result[i].trim());
             var partyCode = result[i + 1].trim();
             var partyName = getFullPartyName(partyCode);
-
             ElectionResult electionResult = new ElectionResult(partyName, voteCount);
             electionResults.add(electionResult);
         }
+
         return electionResults;
     }
 
