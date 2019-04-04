@@ -3,11 +3,11 @@ package com.codurance;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PartyRepository {
+public interface PartyRepository {
 
-    private Map map = new HashMap();
+    Map<String, String> map = new HashMap<>();
 
-    public String getFullPartyName(String partyCode) {
+     default String getFullPartyName(String partyCode) {
         map.put("C", "Conservative Party");
         map.put("LD", "Liberal Democrats");
         map.put("L", "Labour Party");
@@ -15,6 +15,7 @@ public class PartyRepository {
         map.put("G", "Green Party");
         map.put("Ind", "Independent");
 
-        return (String) map.get(partyCode);
+        return map.get(partyCode);
     }
+
 }

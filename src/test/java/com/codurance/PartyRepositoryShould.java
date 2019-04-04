@@ -11,25 +11,23 @@ import static org.mockito.Mockito.verify;
 
 public class PartyRepositoryShould {
 
+    private static final String PARTY_CODE = "C";
     @Mock
     PartyRepository repository;
-    @Mock
-    ElectionResults results;
 
     @BeforeEach
     void setUp() {
         repository = mock(PartyRepository.class);
-        results = mock(ElectionResults.class);
     }
 
     @Test
     void get_translated_party_name_for_one_party() {
+        given(repository.getFullPartyName(PARTY_CODE)).willReturn("Conservative Party");
 
-        given(repository.getFullPartyName("C")).willReturn("Conservative Party");
+        ElectionResults results = new ElectionResults(repository);
+        var electionResults = results.electionTransformer("Cardiff West, 11014, C");
 
-        var partyName = results.electionTransformer("Cardiff West, 11014, C");
-
-        assertThat(partyName).isEqualTo("Conservative Party");
-        verify(repository).getFullPartyName("C");
+        assertThat(electionResults).isEqualTo("Cardiff West || Conservative Party | 100.00%");
+        verify(repository).getFullPartyName(PARTY_CODE);
     }
 }

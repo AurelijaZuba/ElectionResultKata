@@ -1,15 +1,14 @@
 package com.codurance;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 
-import java.util.Arrays;
 import java.util.stream.Stream;
 
-import static java.lang.System.*;
+import static java.lang.System.lineSeparator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -18,13 +17,18 @@ public class ElectionResultsShould {
     //Mock for repository
     //constructor inject the data within the class without making it the responsibility.
     //BDD in java
+    private PartyRepository repository;
 
+    @BeforeEach
+    void setUp() {
+        repository = new PartyRepository() {};
+    }
 
     @ParameterizedTest
     @MethodSource("singleLineTestCases")
     void transform_constituency_name_to_statistical_format(String resultInput, String expectedResult) {
 
-        ElectionResults electionResults = new ElectionResults();
+        ElectionResults electionResults = new ElectionResults(repository);
         var result = electionResults.electionTransformer(resultInput);
 
         assertThat(result).isEqualTo(expectedResult);
@@ -41,6 +45,4 @@ public class ElectionResultsShould {
                                 "UKIP | 7.70% || Green Party | 7.69% || Independent | 0.71%")
         );
     }
-
-
 }

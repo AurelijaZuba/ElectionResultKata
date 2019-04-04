@@ -4,8 +4,13 @@ import java.util.*;
 
 import static java.lang.System.*;
 
-public class ElectionResults {
+public class ElectionResults implements PartyRepository{
 
+    private PartyRepository partyRepository;
+
+    public ElectionResults(PartyRepository partyRepository) {
+        this.partyRepository = partyRepository;
+    }
 
     public String electionTransformer(String input) {
 
@@ -35,32 +40,13 @@ public class ElectionResults {
             var voteCount = Integer.parseInt(result[i].trim());
             var partyCode = result[i + 1].trim();
 
-
 //            var partyName = getFullPartyName(partyCode);
-
-            var partyName = getFullPartyName(partyCode);
+            var partyName = partyRepository.getFullPartyName(partyCode);
             var electionResult = new ElectionResult(partyName, voteCount);
             electionResults.add(electionResult);
         }
 
         return electionResults;
     }
-
-
-    private String getFullPartyName(String partyCode) {
-        Map map = new HashMap();
-        map.put("C", "Conservative Party");
-        map.put("LD", "Liberal Democrats");
-        map.put("L", "Labour Party");
-        map.put("UKIP", "UKIP");
-        map.put("G", "Green Party");
-        map.put("Ind", "Independent");
-
-        return (String) map.get(partyCode);
-    }
-
-
     //TODO add exception for the argument at later date for above
-
-
 }
