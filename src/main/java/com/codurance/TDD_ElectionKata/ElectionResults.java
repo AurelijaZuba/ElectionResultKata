@@ -13,18 +13,22 @@ public class ElectionResults {
     }
 
     public String electionTransformer(String input) {
-
         var electionResultBuilder = new StringBuilder();
-        for (var newLine : input.split(lineSeparator())) {
 
-            String[] constituencyInformation = newLine.split(",");
-            var constituencyName = constituencyInformation[0];
-            ArrayList<ElectionResult> electionResults = getElectionResults(constituencyInformation);
-            var constituencyResult = new ConstituencyResult(constituencyName, electionResults);
-            electionResultBuilder.append(constituencyResult.toString() + lineSeparator());
+        if(input.trim().isEmpty()) {
+            throw new NullPointerException();
         }
+            for (var newLine : input.split(lineSeparator())) {
 
-        return getFormattedElectionResults(electionResultBuilder);
+                String[] constituencyInformation = newLine.split(",");
+                var constituencyName = constituencyInformation[0];
+                ArrayList<ElectionResult> electionResults = getElectionResults(constituencyInformation);
+                var constituencyResult = new ConstituencyResult(constituencyName, electionResults);
+                electionResultBuilder.append(constituencyResult.toString() + lineSeparator());
+            }
+
+            return getFormattedElectionResults(electionResultBuilder);
+
     }
 
     private String getFormattedElectionResults(StringBuilder electionResultBuilder) {
@@ -40,7 +44,6 @@ public class ElectionResults {
             var voteCount = Integer.parseInt(result[i].trim());
             var partyCode = result[i + 1].trim();
 
-//            var partyName = getFullPartyName(partyCode);
             var partyName = partyRepository.getFullPartyName(partyCode);
             var electionResult = new ElectionResult(partyName, voteCount);
             electionResults.add(electionResult);

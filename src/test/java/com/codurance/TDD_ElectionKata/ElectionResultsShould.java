@@ -1,6 +1,7 @@
 package com.codurance.TDD_ElectionKata;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,13 +10,11 @@ import java.util.stream.Stream;
 
 import static java.lang.System.lineSeparator;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class ElectionResultsShould {
 
-    //Mock for repository
-    //constructor inject the data within the class without making it the responsibility.
-    //BDD in java
     private PartyRepository repository;
 
     @BeforeEach
@@ -42,6 +41,22 @@ public class ElectionResultsShould {
                                 + lineSeparator() +
                                 "Islington South & Finsbury || Labour Party | 51.45% || Conservative Party | 21.43% || Liberal Democrats | 11.02% || " +
                                 "UKIP | 7.70% || Green Party | 7.69% || Independent | 0.71%")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalid_election_input")
+    void throw_an_exception_for_invalid_input(String resultInput) {
+        ElectionResults electionResults = new ElectionResults(repository);
+        assertThrows(NullPointerException.class,
+                () -> electionResults.electionTransformer(resultInput));
+
+    }
+    static Stream<Arguments> invalid_election_input() {
+        return Stream.of(
+                arguments(" "),
+                arguments(""),
+                arguments((Object) null)
         );
     }
 }
