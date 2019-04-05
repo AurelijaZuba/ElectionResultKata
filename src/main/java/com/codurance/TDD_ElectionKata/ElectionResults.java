@@ -44,10 +44,11 @@ public class ElectionResults {
     private ArrayList<ElectionResult> getElectionResults(String[] result) throws InvalidElectionResultException, PartyCodeNotFoundException {
         var electionResults = new ArrayList<ElectionResult>();
 
-        if(result.length % 2 == 0)
+        if(isResultLengthInvalid(result))
         {
             throw new InvalidElectionResultException();
         }
+
         for (var i = 1; i <= result.length - 1; i += 2) {
             var voteCount = Integer.parseInt(result[i].trim());
             var partyCode = result[i + 1].trim();
@@ -58,5 +59,9 @@ public class ElectionResults {
         }
 
         return electionResults;
+    }
+
+    private boolean isResultLengthInvalid(String[] result) {
+        return result.length % 2 == 0;
     }
 }

@@ -20,12 +20,12 @@ public class ElectionResultsShould {
 
     private ElectionResults electionResults;
 
-   @Mock
+    @Mock
     PartyRepository repository;
 
     @BeforeEach
     void setUp() throws PartyCodeNotFoundException {
-        repository =  mock(PartyRepository.class);
+        repository = mock(PartyRepository.class);
         when(repository.getFullPartyName("C")).thenReturn("Conservative Party");
         when(repository.getFullPartyName("LD")).thenReturn("Liberal Democrats");
         when(repository.getFullPartyName("L")).thenReturn("Labour Party");
@@ -44,6 +44,7 @@ public class ElectionResultsShould {
                 () -> electionResults.electionTransformer(invalidInput));
 
     }
+
     static Stream<Arguments> invalid_election_input() {
         return Stream.of(
                 arguments(" "),
@@ -53,14 +54,15 @@ public class ElectionResultsShould {
     }
 
     @ParameterizedTest
-    @MethodSource("missing_information")
-    void throw_an_exception_for_missing_party_code(String invalidInput) {
+    @MethodSource("invalid_input")
+    void throw_an_invalid_exception_when_input_is_invalid(String invalidInput) {
 
         assertThrows(InvalidElectionResultException.class,
                 () -> electionResults.electionTransformer(invalidInput));
 
     }
-    static Stream<Arguments> missing_information() {
+
+    static Stream<Arguments> invalid_input() {
         return Stream.of(
                 arguments("Cardiff West, 11014")
         );
@@ -74,6 +76,7 @@ public class ElectionResultsShould {
 
         assertThat(result).isEqualTo(expectedResult);
     }
+
     static Stream<Arguments> singleLineTestCases() {
         return Stream.of(
                 arguments("Cardiff West, 11014, C", "Cardiff West || Conservative Party | 100.00%"),
