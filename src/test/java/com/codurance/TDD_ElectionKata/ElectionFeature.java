@@ -1,8 +1,7 @@
-package com.codurance;
+package com.codurance.TDD_ElectionKata;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

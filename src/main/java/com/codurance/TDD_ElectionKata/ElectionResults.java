@@ -1,4 +1,4 @@
-package com.codurance;
+package com.codurance.TDD_ElectionKata;
 
 import java.util.*;
 
