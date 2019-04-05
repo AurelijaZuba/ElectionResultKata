@@ -4,15 +4,15 @@ import java.util.*;
 
 import static java.lang.System.*;
 
-public class ElectionResults {
+class ElectionResults {
 
     private PartyRepository partyRepository;
 
-    public ElectionResults(PartyRepository partyRepository) {
+    ElectionResults(PartyRepository partyRepository) {
         this.partyRepository = partyRepository;
     }
 
-    public String electionTransformer(String input) throws InvalidElectionResultException, PartyCodeNotFoundException {
+    String electionTransformer(String input) throws InvalidElectionResultException, PartyCodeNotFoundException {
 
         if (checkInvalidInput(input)) {
             throw new NullPointerException();

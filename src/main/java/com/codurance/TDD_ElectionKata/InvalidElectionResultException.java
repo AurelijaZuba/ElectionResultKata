@@ -1,7 +1,7 @@
 package com.codurance.TDD_ElectionKata;
 
-public class InvalidElectionResultException extends Exception {
+class InvalidElectionResultException extends Exception {
 
-    public InvalidElectionResultException() {
+    InvalidElectionResultException() {
     }
 }

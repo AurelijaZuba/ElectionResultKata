@@ -15,8 +15,8 @@ public class ConstituencyResult {
     @Override
     public String toString() {
         double voteSum = electionResults.stream()
-                .map(x -> x.getVoteCount())
-                .mapToDouble(x -> x.doubleValue())
+                .map(ElectionResult::getVoteCount)
+                .mapToDouble(Integer::doubleValue)
                 .sum();
 
         StringBuilder constituencyResultBuilder = new StringBuilder();

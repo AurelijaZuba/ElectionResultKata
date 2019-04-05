@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 
 import java.util.stream.Stream;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-public class ElectionResultsShould {
+class ElectionResultsShould {
 
     private ElectionResults electionResults;
 
@@ -44,7 +45,6 @@ public class ElectionResultsShould {
                 () -> electionResults.electionTransformer(invalidInput));
 
     }
-
     static Stream<Arguments> invalid_election_input() {
         return Stream.of(
                 arguments(" "),
@@ -54,42 +54,13 @@ public class ElectionResultsShould {
     }
 
     @ParameterizedTest
-    @MethodSource("invalid_input")
-    void throw_an_invalid_exception_when_input_is_invalid(String invalidInput) {
+    @ValueSource(strings = {"Cardiff West, 11014"})
+    void throw_an_invalid_exception_when_party_code_is_missing(String invalidInput) {
 
         assertThrows(InvalidElectionResultException.class,
                 () -> electionResults.electionTransformer(invalidInput));
 
     }
-
-    static Stream<Arguments> invalid_input() {
-        return Stream.of(
-                arguments("Cardiff West, 11014")
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("singleLineTestCases")
-    void transform_constituency_name_to_statistical_format(String resultInput, String expectedResult) throws InvalidElectionResultException, PartyCodeNotFoundException {
-
-        var result = electionResults.electionTransformer(resultInput);
-
-        assertThat(result).isEqualTo(expectedResult);
-    }
-
-    static Stream<Arguments> singleLineTestCases() {
-        return Stream.of(
-                arguments("Cardiff West, 11014, C", "Cardiff West || Conservative Party | 100.00%"),
-                arguments("Cardiff West, 11014, C, 17803, L, 4923, UKIP, 2069, LD"
-                                + lineSeparator() +
-                                "Islington South & Finsbury, 22547, L, 9389, C, 4829, LD, 3375, UKIP, 3371, G, 309, Ind",
-                        "Cardiff West || Conservative Party | 30.76% || Labour Party | 49.72% || UKIP | 13.75% || Liberal Democrats | 5.78%"
-                                + lineSeparator() +
-                                "Islington South & Finsbury || Labour Party | 51.45% || Conservative Party | 21.43% || Liberal Democrats | 11.02% || " +
-                                "UKIP | 7.70% || Green Party | 7.69% || Independent | 0.71%")
-        );
-    }
-
 
     @Test
     void get_translated_party_name_for_one_party() throws InvalidElectionResultException, PartyCodeNotFoundException {
@@ -102,4 +73,24 @@ public class ElectionResultsShould {
         verify(repository).getFullPartyName("C");
     }
 
+    @ParameterizedTest
+    @MethodSource("singleLineTestCases")
+    void transform_constituency_name_to_statistical_format(String resultInput, String expectedResult) throws InvalidElectionResultException, PartyCodeNotFoundException {
+
+        var result = electionResults.electionTransformer(resultInput);
+
+        assertThat(result).isEqualTo(expectedResult);
+    }
+    static Stream<Arguments> singleLineTestCases() {
+        return Stream.of(
+                arguments("Cardiff West, 11014, C", "Cardiff West || Conservative Party | 100.00%"),
+                arguments("Cardiff West, 11014, C, 17803, L, 4923, UKIP, 2069, LD"
+                                + lineSeparator() +
+                                "Islington South & Finsbury, 22547, L, 9389, C, 4829, LD, 3375, UKIP, 3371, G, 309, Ind",
+                        "Cardiff West || Conservative Party | 30.76% || Labour Party | 49.72% || UKIP | 13.75% || Liberal Democrats | 5.78%"
+                                + lineSeparator() +
+                                "Islington South & Finsbury || Labour Party | 51.45% || Conservative Party | 21.43% || Liberal Democrats | 11.02% || " +
+                                "UKIP | 7.70% || Green Party | 7.69% || Independent | 0.71%")
+        );
+    }
 }

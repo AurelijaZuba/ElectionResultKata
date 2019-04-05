@@ -3,11 +3,11 @@ package com.codurance.TDD_ElectionKata;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PartyRepository {
+class PartyRepository {
 
-    public static final Map<String, String> map = new HashMap<>();
+    private static final Map<String, String> map = new HashMap<>();
 
-    public String getFullPartyName(String partyCode) throws PartyCodeNotFoundException {
+    String getFullPartyName(String partyCode) throws PartyCodeNotFoundException {
 
         map.put("C", "Conservative Party");
         map.put("LD", "Liberal Democrats");
