@@ -50,7 +50,6 @@ public class ElectionResultsShould {
         ElectionResults electionResults = new ElectionResults(repository);
         assertThrows(NullPointerException.class,
                 () -> electionResults.electionTransformer(resultInput));
-
     }
     static Stream<Arguments> invalid_election_input() {
         return Stream.of(

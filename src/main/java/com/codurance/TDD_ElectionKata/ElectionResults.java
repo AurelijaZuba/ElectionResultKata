@@ -13,22 +13,24 @@ public class ElectionResults {
     }
 
     public String electionTransformer(String input) {
-        var electionResultBuilder = new StringBuilder();
 
-        if(input.trim().isEmpty()) {
+        var electionResultBuilder = new StringBuilder();
+        if (checkInvalidInput(input)) {
             throw new NullPointerException();
         }
-            for (var newLine : input.split(lineSeparator())) {
+        for (var newLine : input.split(lineSeparator())) {
+            String[] constituencyInformation = newLine.split(",");
+            var constituencyName = constituencyInformation[0];
+            ArrayList<ElectionResult> electionResults = getElectionResults(constituencyInformation);
+            var constituencyResult = new ConstituencyResult(constituencyName, electionResults);
+            electionResultBuilder.append(constituencyResult.toString() + lineSeparator());
+        }
 
-                String[] constituencyInformation = newLine.split(",");
-                var constituencyName = constituencyInformation[0];
-                ArrayList<ElectionResult> electionResults = getElectionResults(constituencyInformation);
-                var constituencyResult = new ConstituencyResult(constituencyName, electionResults);
-                electionResultBuilder.append(constituencyResult.toString() + lineSeparator());
-            }
+        return getFormattedElectionResults(electionResultBuilder);
+    }
 
-            return getFormattedElectionResults(electionResultBuilder);
-
+    private boolean checkInvalidInput(String input) {
+        return input.trim().isEmpty();
     }
 
     private String getFormattedElectionResults(StringBuilder electionResultBuilder) {
@@ -51,5 +53,4 @@ public class ElectionResults {
 
         return electionResults;
     }
-    //TODO add exception for the argument at later date for above
 }
