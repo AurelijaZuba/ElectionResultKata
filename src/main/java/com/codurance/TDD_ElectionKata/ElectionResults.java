@@ -12,7 +12,7 @@ public class ElectionResults {
         this.partyRepository = partyRepository;
     }
 
-    public String electionTransformer(String input) throws InvalidElectionResultException {
+    public String electionTransformer(String input) throws InvalidElectionResultException, PartyCodeNotFoundException {
 
         if (checkInvalidInput(input)) {
             throw new NullPointerException();
@@ -41,7 +41,7 @@ public class ElectionResults {
         return electionResult.substring(0, lengthWithoutSeperator);
     }
 
-    private ArrayList<ElectionResult> getElectionResults(String[] result) throws InvalidElectionResultException {
+    private ArrayList<ElectionResult> getElectionResults(String[] result) throws InvalidElectionResultException, PartyCodeNotFoundException {
         var electionResults = new ArrayList<ElectionResult>();
 
         if(result.length % 2 == 0)

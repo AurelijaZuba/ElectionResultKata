@@ -15,7 +15,7 @@ public class ElectionFeature {
     }
 
     @Test
-    void transforming_election_results_into_friendly_statistics() throws InvalidElectionResultException {
+    void transforming_election_results_into_friendly_statistics() throws InvalidElectionResultException, PartyCodeNotFoundException {
 
         ElectionResults electionResults = new ElectionResults(repository);
 
