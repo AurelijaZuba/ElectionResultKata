@@ -4,7 +4,7 @@ import java.util.*;
 
 import static java.lang.System.*;
 
-public class ElectionResults implements PartyRepository{
+public class ElectionResults {
 
     private PartyRepository partyRepository;
 
