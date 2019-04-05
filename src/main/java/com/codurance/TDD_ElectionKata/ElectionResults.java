@@ -12,12 +12,14 @@ public class ElectionResults {
         this.partyRepository = partyRepository;
     }
 
-    public String electionTransformer(String input) {
+    public String electionTransformer(String input) throws InvalidElectionResultException {
 
-        var electionResultBuilder = new StringBuilder();
         if (checkInvalidInput(input)) {
             throw new NullPointerException();
         }
+
+        var electionResultBuilder = new StringBuilder();
+
         for (var newLine : input.split(lineSeparator())) {
             String[] constituencyInformation = newLine.split(",");
             var constituencyName = constituencyInformation[0];
@@ -39,10 +41,14 @@ public class ElectionResults {
         return electionResult.substring(0, lengthWithoutSeperator);
     }
 
-    private ArrayList<ElectionResult> getElectionResults(String[] result) {
+    private ArrayList<ElectionResult> getElectionResults(String[] result) throws InvalidElectionResultException {
         var electionResults = new ArrayList<ElectionResult>();
 
-        for (var i = 1; i < result.length - 1; i += 2) {
+        if(result.length % 2 == 0)
+        {
+            throw new InvalidElectionResultException();
+        }
+        for (var i = 1; i <= result.length - 1; i += 2) {
             var voteCount = Integer.parseInt(result[i].trim());
             var partyCode = result[i + 1].trim();
 
