@@ -1,9 +1,9 @@
 package com.codurance.TDD_ElectionKata;
 
-import java.util.HashMap;
-import java.util.Map;
+        import java.util.HashMap;
+        import java.util.Map;
 
-class PartyRepository {
+public class PartyRepository {
 
     private static final Map<String, String> map = new HashMap<>();
 
@@ -25,3 +25,4 @@ class PartyRepository {
     }
 
 }
+
